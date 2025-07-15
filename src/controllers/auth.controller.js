@@ -33,8 +33,6 @@ exports.register = function (req, res) {
 
   userModels.createUser(newUser)
 
-  console.log(allUsers)
-
   return res.status(http.HTTP_STATUS_CREATED).json({
     success: true,
     message: 'register success!',
@@ -54,7 +52,7 @@ exports.login = function (req, res) {
 
   const user = userModels.getUserByEmail(email)
   if (user === undefined) {
-    return res.status(http.HTTP_STATUS_BAD_REQUEST).json({
+    return res.status(http.HTTP_STATUS_UNAUTHORIZED).json({
       success: false,
       message: "email is not registered!"
     })
@@ -67,7 +65,7 @@ exports.login = function (req, res) {
     })
   }
 
-  return res.status(http.HTTP_STATUS_UNAUTHORIZED).json({
+  return res.status(http.HTTP_STATUS_OK).json({
     success: true,
     message: 'login success!'
   })
