@@ -9,8 +9,8 @@ exports.getUserByEmail = (email) => {
 }
 
 exports.getAllUsers = (search) => {
-  if (search & search !== "") {
-    return users.filter(user => user.email.includes(search))
+  if (search && search !== "") {
+    return users.filter(user => user.email.toLowerCase().includes(search.toLowerCase()))
   }
   return users
 }
