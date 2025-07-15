@@ -1,5 +1,4 @@
 const { constants: http } = require('http2')
-
 const userModels = require('../models/user.models')
 
 /**
@@ -25,7 +24,7 @@ exports.register = function (req, res) {
     })
   }
 
-  const allUsers = userModels.getAllUsers
+  const allUsers = userModels.getAllUsers()
   const newUser = {
     id: allUsers.length + 1,
     email,
@@ -53,6 +52,20 @@ exports.register = function (req, res) {
 exports.login = function (req, res) {
   const { email, password } = req.body
 
+  const user = userModels.getUserByEmail(email)
+  if (user === undefined) {
+    return res.status(http.HTTP_STATUS_BAD_REQUEST).json({
+      success: false,
+      message: "email is not registered!"
+    })
+  }
+
+  if (password !== user.password) {
+    return res.status(http.HTTP_STATUS_BAD_REQUEST).json({
+      success: false,
+      message: "password is wrong!"
+    })
+  }
 
   return res.status(http.HTTP_STATUS_UNAUTHORIZED).json({
     success: true,
