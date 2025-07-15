@@ -8,7 +8,10 @@ exports.getUserByEmail = (email) => {
   return users.find(user => user.email === email)
 }
 
-exports.getAllUsers = () => {
+exports.getAllUsers = (search) => {
+  if (search & search !== "") {
+    return users.filter(user => user.email.includes(search))
+  }
   return users
 }
 
