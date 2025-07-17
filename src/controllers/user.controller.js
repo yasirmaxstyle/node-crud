@@ -1,6 +1,32 @@
 const { constants: http } = require('http2')
 const userModels = require('../models/user.models')
 
+
+/**
+ * 
+ * @param {import('express').Request} req 
+ * @param {import('express').Response} res 
+ * @returns 
+ */
+
+exports.createUser = function (req, res) {
+  const { username, email } = req.body
+
+  const allUsers = userModels.getAllUsers()
+  const newUser = {
+    id: allUsers.length + 1,
+    username,
+    email
+  }
+
+  userModels.createUser(newUser)
+
+  return res.status(http.HTTP_STATUS_CREATED).json({
+    success: true,
+    message: 'user created successfully!'
+  })
+}
+
 /**
  * 
  * @param {import('express').Request} req 
